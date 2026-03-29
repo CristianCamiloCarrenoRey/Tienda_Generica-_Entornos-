@@ -15,33 +15,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import uis.edu.entorno.tienda.modelo.Usuario;
-import uis.edu.entorno.tienda.servicio.UsuarioService;
+import uis.edu.entorno.tienda.modelo.Producto;
+import uis.edu.entorno.tienda.servicio.ProdictoService;
 
 
 @RestController
-@RequestMapping("/api/usuarios")
-public class UsuarioController {
-	
+@RequestMapping("/api/productos")
+public class ProductoController {
+
 	@Autowired
-	UsuarioService usuarioService;
+	ProdictoService productoService;
 	
 	// listar los Usuario
 	
-	@GetMapping("/list")
-	public ResponseEntity<List<Usuario>> findAll(){
-		return ResponseEntity.ok(usuarioService.getUsuarios());
+	@GetMapping("list")
+	public ResponseEntity<List<Producto>> findAll(){
+		return ResponseEntity.ok(productoService.getProducto());
 		
 	}
 	@GetMapping("/list/{id}")
-	public Usuario buscarPorId(@PathVariable Long id) {
-		return usuarioService.BuscarUsuario(id);
+	public Producto buscarPorId(@PathVariable Long id) {
+		return productoService.BuscarProducto(id);
 	}
 	
 	//Agregar Usuario
 	@PostMapping("/post")
-	public ResponseEntity<Usuario> agregar(@Valid @RequestBody Usuario usuario){
-		Usuario obj= usuarioService.NuevoUsuario(usuario);
+	public ResponseEntity<Producto> agregar(@Valid @RequestBody Producto producto){
+		Producto obj= productoService.NuevoProducto(producto);
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 		
 	}
@@ -49,16 +49,16 @@ public class UsuarioController {
 	//Actualizar Usuario
 	
 	@PutMapping("/put")
-	public ResponseEntity<Usuario> editar(@Valid @RequestBody Usuario usuario){
-		Usuario obj= usuarioService.BuscarUsuario(usuario.getId());
+	public ResponseEntity<Producto> editar(@ Valid @RequestBody Producto producto){
+		Producto obj= productoService.BuscarProducto(producto.getId());
 		if(obj != null) {
-			obj.setEmail(usuario.getEmail());
-			obj.setIdTipoDocumento(usuario.getIdTipoDocumento());
-			obj.setNombre(usuario.getNombre());
-			obj.setNombreUsuario(usuario.getNombreUsuario());
-			obj.setNumeroDocumento(usuario.getNumeroDocumento());
-			obj.setPassword(usuario.getPassword());
-			usuarioService.NuevoUsuario(obj);
+			obj.setIdProveedor(producto.getIdProveedor());
+			obj.setIvaCompra(producto.getIvaCompra());
+			obj.setNombre(producto.getNombre());
+			obj.setPrecioCompra(producto.getPrecioCompra());
+			obj.setPrecioVenta(producto.getPrecioVenta());
+			
+			productoService.NuevoProducto(obj);
 			
 			
 		}else {
@@ -72,11 +72,11 @@ public class UsuarioController {
 	
 	//Borra Usuario 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Usuario> eliminar(@PathVariable Long id){
-		Usuario obj= usuarioService.BuscarUsuario(id);
+	public ResponseEntity<Producto> eliminar(@PathVariable Long id){
+		Producto obj= productoService.BuscarProducto(id);
 		if(obj != null) {
 			
-			usuarioService.BorrarUsuario(id);
+			productoService.BorrarProducto(id);
 			
 			
 		}else {

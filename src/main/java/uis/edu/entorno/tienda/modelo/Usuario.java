@@ -9,6 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -20,26 +24,33 @@ public class Usuario {
 	@Id // id para identificar la llave primaria 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)//  aca se define el autoincremental 
 	private Long id;
-	
+	@NotNull(message = "El Tipo de documento es obligatorio")
 	@ManyToOne  // relacion Muchos  uno para este caso (muchos usuarios peuden teenr un tipo de doc)
 	@JoinColumn(name="idTipoDocumento")// aca se referencia la llave foranea
 	private Tipodocumento idTipoDocumento;
 	
 	// columnas de la tabla
 	
-	@Column(name= "numeroDocumento")
+	@NotBlank(message = "El número de documento no puede estar vacío")
+	@Column(name = "numeroDocumento", nullable = false, length = 40)
 	private String numeroDocumento;
-	
-	@Column(name= "email")
+
+	@NotBlank(message = "El email no puede estar vacío")
+	@Email(message = "El email no es válido")
+	@Column(name = "email", nullable = false, length = 255)
 	private String email;
-	
-	@Column(name= "nombre")
+
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Column(name = "nombre", nullable = false, length = 255)
 	private String nombre;
-	
-	@Column(name= "password")
+
+	@NotBlank(message = "La contraseña no puede estar vacía")
+	@Size(min = 6, message = "La contraseña debe tener mínimo 6 caracteres")
+	@Column(name = "password", nullable = false, length = 255)
 	private String password;
-	
-	@Column(name= "nombreUsuario")
+
+	@NotBlank(message = "El nombre de usuario no puede estar vacío")
+	@Column(name = "nombreUsuario", nullable = false, length = 255)
 	private String nombreUsuario;
 	
 	
@@ -47,14 +58,14 @@ public class Usuario {
 	// constructor 
 
 	public Usuario() {
-		super();
+		
 	}
 
 
 
 	public Usuario(Long id, Tipodocumento idTipoDocumento, String numeroDocumento, String email, String nombre,
 			String password, String nombreUsuario) {
-		super();
+		
 		this.id = id;
 		this.idTipoDocumento = idTipoDocumento;
 		this.numeroDocumento = numeroDocumento;

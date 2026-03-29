@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name=Tipodocumento.TABLE_NAME)
@@ -16,7 +17,8 @@ public class Tipodocumento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name= "tipo")
+	@NotBlank(message = "El tipo de documento no puede estar vacío")
+	@Column(name = "tipo", nullable = false, length = 50)
 	private String tipo;
 
 
@@ -25,14 +27,16 @@ public class Tipodocumento {
 
 
 	public Tipodocumento() {
-		super();
+		
 	}
 	
 	public Tipodocumento(Long id, String tipo) {
-		super();
+		
 		this.id = id;
 		this.tipo = tipo;
 	}
+	
+	
 
 	// getters and setters 
 	
@@ -52,10 +56,11 @@ public class Tipodocumento {
 		this.tipo = tipo;
 	}
 
-	public static String getTableName() {
-		return TABLE_NAME;
-	}
+
+
+	// getters and setters 
 	
+
 	
 	
 	
