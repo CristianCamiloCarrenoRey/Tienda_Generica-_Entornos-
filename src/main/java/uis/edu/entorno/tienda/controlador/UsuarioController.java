@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
+import uis.edu.entorno.tienda.modelo.LoginDto;
 import uis.edu.entorno.tienda.modelo.Usuario;
 import uis.edu.entorno.tienda.servicio.UsuarioService;
 
@@ -87,5 +88,15 @@ public class UsuarioController {
 		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 	
-
+	@PostMapping("/loginclient")// ruta del servicio desde el front deden direccionar a esta ruta 
+	public int login(@RequestBody  LoginDto usuario ) {
+		int responseLogin = usuarioService.login(usuario);
+		return responseLogin;
+	}
+	
+	
+	@PostMapping("/login")//ruta del servicio desde el front deben direccionar etsa ruta 
+	public ResponseEntity<?> loginCliente(@RequestBody LoginDto usuario){
+		return usuarioService.ingresar(usuario);
+	}
 }
